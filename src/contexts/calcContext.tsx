@@ -6,6 +6,7 @@ interface ICalcContext {
   operationView: string;
   calcOperation: () => void;
   clearOperation: () => void;
+  removeLastCharacter: () => void;
   insertCharacter: (character: string) => void;
 }
 
@@ -35,6 +36,11 @@ function CalcProvider({children}: any): JSX.Element {
     setOperationView(prevState => prevState + character);
   };
 
+  const removeLastCharacter = () => {
+    const operationValue = operationView.slice(0, operationView.length - 1);
+    setOperationView(operationValue);
+  };
+
   const clearOperation = () => {
     setOperationView('');
     setResultView('');
@@ -46,7 +52,10 @@ function CalcProvider({children}: any): JSX.Element {
 
     if (!isOperator) {
       const resultEval = eval(operationView);
-      setResultView(resultEval);
+      const isFloat = resultEval % 1 !== 0;
+      const resultFixed = Number(resultEval).toFixed(2);
+
+      setResultView(isFloat ? resultFixed : resultEval);
     }
   };
 
@@ -58,6 +67,7 @@ function CalcProvider({children}: any): JSX.Element {
         calcOperation,
         clearOperation,
         insertCharacter,
+        removeLastCharacter,
       }}>
       {children}
     </CalcContext.Provider>
