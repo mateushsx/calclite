@@ -7,7 +7,7 @@ export function ViewResult() {
   return (
     <ResultContainer>
       <ResultCalc>{operationView || 0}</ResultCalc>
-      <ResultFinal>={resultView || 0} </ResultFinal>
+      <ResultFinal>={resultView || 0}</ResultFinal>
     </ResultContainer>
   );
 }

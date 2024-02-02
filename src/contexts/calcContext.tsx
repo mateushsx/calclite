@@ -5,6 +5,7 @@ interface ICalcContext {
   resultView: string;
   operationView: string;
   calcOperation: () => void;
+  clearOperation: () => void;
   insertCharacter: (character: string) => void;
 }
 
@@ -34,6 +35,11 @@ function CalcProvider({children}: any): JSX.Element {
     setOperationView(prevState => prevState + character);
   };
 
+  const clearOperation = () => {
+    setOperationView('');
+    setResultView('');
+  };
+
   const calcOperation = () => {
     const lastCharacter = operationView.slice(-1);
     const isOperator = operatorsList.includes(lastCharacter);
@@ -50,6 +56,7 @@ function CalcProvider({children}: any): JSX.Element {
         resultView,
         operationView,
         calcOperation,
+        clearOperation,
         insertCharacter,
       }}>
       {children}

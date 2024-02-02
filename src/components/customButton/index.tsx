@@ -9,15 +9,15 @@ interface ICustomButton {
   height?: string;
 }
 
-const RESERVED_BUTTONS = ['Ac', 'x'];
-
 export function CustomButton({number, color, width, height}: ICustomButton) {
-  const {insertCharacter, calcOperation} = useCalc();
+  const {insertCharacter, calcOperation, clearOperation} = useCalc();
 
   const handleInsertCharacter = () => {
     if (number === '=') {
       calcOperation();
-    } else if (!RESERVED_BUTTONS.includes(number)) {
+    } else if (number === 'Ac') {
+      clearOperation();
+    } else {
       insertCharacter(number);
     }
   };
