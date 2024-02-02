@@ -12,10 +12,12 @@ interface ICustomButton {
 const RESERVED_BUTTONS = ['Ac', 'x'];
 
 export function CustomButton({number, color, width, height}: ICustomButton) {
-  const {insertCharacter} = useCalc();
+  const {insertCharacter, calcOperation} = useCalc();
 
   const handleInsertCharacter = () => {
-    if (!RESERVED_BUTTONS.includes(number)) {
+    if (number === '=') {
+      calcOperation();
+    } else if (!RESERVED_BUTTONS.includes(number)) {
       insertCharacter(number);
     }
   };

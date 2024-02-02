@@ -3,11 +3,11 @@ import {ResultCalc, ResultContainer, ResultFinal} from './styles';
 import {useCalc} from '../../contexts/calcContext';
 
 export function ViewResult() {
-  const {operationView} = useCalc();
+  const {operationView, resultView} = useCalc();
   return (
     <ResultContainer>
       <ResultCalc>{operationView || 0}</ResultCalc>
-      <ResultFinal>=11</ResultFinal>
+      <ResultFinal>={resultView || 0} </ResultFinal>
     </ResultContainer>
   );
 }

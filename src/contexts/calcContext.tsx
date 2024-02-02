@@ -2,32 +2,55 @@ import React from 'react';
 import {createContext, useContext, useState} from 'react';
 
 interface ICalcContext {
-  insertCharacter: (character: string) => void;
+  resultView: string;
   operationView: string;
+  calcOperation: () => void;
+  insertCharacter: (character: string) => void;
 }
 
 const CalcContext = createContext({} as ICalcContext);
 
-const operators = ['/', '*', '-', '+'];
+const operators = {
+  division: '/',
+  multiply: '*',
+  subtract: '-',
+  addition: '+',
+};
+
+const operatorsList = Object.values(operators);
 
 function CalcProvider({children}: any): JSX.Element {
   const [operationView, setOperationView] = useState('');
+  const [resultView, setResultView] = useState('');
 
   const insertCharacter = (character: string) => {
     const lastCharacter = operationView.slice(-1);
+    const isOperator = operatorsList.includes(character);
 
-    if (operators.includes(character) && operators.includes(lastCharacter)) {
+    if (isOperator && operatorsList.includes(lastCharacter)) {
       return;
     }
 
     setOperationView(prevState => prevState + character);
   };
 
+  const calcOperation = () => {
+    const lastCharacter = operationView.slice(-1);
+    const isOperator = operatorsList.includes(lastCharacter);
+
+    if (!isOperator) {
+      const resultEval = eval(operationView);
+      setResultView(resultEval);
+    }
+  };
+
   return (
     <CalcContext.Provider
       value={{
-        insertCharacter,
+        resultView,
         operationView,
+        calcOperation,
+        insertCharacter,
       }}>
       {children}
     </CalcContext.Provider>
